@@ -1,0 +1,203 @@
+export const products = [
+  // Smartphones
+  {
+    id: 1,
+    name: "iPhone 16 Pro",
+    price: 1099,
+    image: ["./asset/tech/4-gray.png","./asset/tech/4-black.png"],
+    category: "Tech",
+    subcategory: "Smartphones",
+    description: "Flagship specs at a competitive price.",
+    color:["white","blue","black","gray","red"],
+    size:["256GB","128GB","64GB","32GB"],
+    ram:["16GB","8GB","4GB"],
+    featured:true,
+    rating: 4.9
+  },
+  {
+    id: 2,
+    name: "iPhone 14 Pro",
+    price: 999,
+    image: ["./asset/tech/1-green.png","./asset/tech/1-gray.png","./asset/tech/1-white.png"],
+    category: "Tech",
+    subcategory: "Smartphones",
+    description: "Apple's powerful flagship with advanced camera features.",
+    color:["white","blue","black","gray","red"],
+    size:["256GB","128GB","64GB","32GB"],
+    ram:["16GB","8GB","4GB"],
+    featured:true,
+    rating: 4.8
+  },
+  {
+    id: 3,
+    name: "Samsung Galaxy S24",
+    price: 899,
+    image: ["./asset/tech/2-black.png","./asset/tech/2-gray.png"],
+    category: "Tech",
+    subcategory: "Smartphones",
+    description: "Top-tier Android with a bright AMOLED screen.",
+    color:["white","blue","black","gray","red"],
+    size:["256GB","128GB","64GB","32GB"],
+    ram:["16GB","8GB","4GB"],
+    featured:true,
+    rating: 4.7
+  },
+  {
+    id: 4,
+    name: "Google Pixel 8",
+    price: 799,
+    image: ["./asset/tech/3-blue.png","./asset/tech/3-white.png","./asset/tech/3-green.png"],
+    category: "Tech",
+    subcategory: "Smartphones",
+    description: "Clean Android experience with AI-powered camera.",
+    color:["white","blue","black","gray","red"],
+    size:["256GB","128GB","64GB","32GB"],
+    ram:["16GB","8GB","4GB"],
+    featured:true,
+    rating: 4.5
+  },
+  {
+    id: 5,
+    name: "Xiaomi 13 Pro",
+    price: 650,
+    image: ["./asset/tech/5.png"],
+    category: "Tech",
+    subcategory: "Smartphones",
+    description: "Affordable phone with premium features.",
+    color:["white","blue","black","gray","red"],
+    size:["256GB","128GB","64GB","32GB"],
+    ram:["16GB","8GB","4GB"],
+    featured:false,
+    rating: 4.3
+  },
+
+  // Earbuds
+  {
+    id: 6,
+    name: "Sony WF-1000XM5",
+    price: 299,
+    image: ["./asset/tech/7-1.png","./asset/tech/10.png"],
+    category: "Tech",
+    subcategory: "Earbuds",
+    description: "Noise-cancelling earbuds with rich sound.",
+    color:["white","black","gray"],
+    featured:true,
+    rating: 4.7
+  },
+  {
+    id: 7,
+    name: "AirPods Pro 2",
+    price: 249,
+    image:  ["./asset/tech/6.png","./asset/tech/6-1.png"],
+    category: "Tech",
+    subcategory: "Earbuds",
+    description: "Apple’s best wireless earbuds with spatial audio.",
+    color:["white","black","gray"],
+    featured:true,
+    rating: 4.6
+  },
+  {
+    id: 8,
+    name: "Samsung Buds 2 Pro",
+    price: 199,
+    image:  ["./asset/tech/8.png","./asset/tech/8-1.png","./asset/tech/8-2.png"],
+    category: "Tech",
+    subcategory: "Earbuds",
+    description: "Compact design with immersive sound.",
+    color:["white","black","gray"],
+    featured:false,
+    rating: 4.3
+  },
+  {
+    id: 9,
+    name: "Jabra Elite 85t",
+    price: 179,
+    image: ["./asset/tech/9.png","./asset/tech/9-1.png","./asset/tech/9-2.png"],
+    category: "Tech",
+    subcategory: "Earbuds",
+    description: "Great for calls and balanced sound.",
+    color:["white","black","gray"],
+    featured:false,
+    rating: 4.2
+  },
+  {
+    id: 10,
+    name: "Anker Soundcore Liberty 4",
+    price: 129,
+    image: ["./asset/tech/7.png"],
+    category: "Tech",
+    subcategory: "Earbuds",
+    description: "Budget-friendly earbuds with strong bass.",
+    color:["white","black","gray"],
+    featured:false,
+    rating: 4.1
+  },
+
+  // Keyboards
+  {
+    id: 11,
+    name: "Logitech MX Keys",
+    price: 99,
+    image: ["./asset/tech/11.png","./asset/tech/11-1.png"],
+    category: "Tech",
+    subcategory: "Keyboards",
+    description: "Wireless productivity keyboard with great feel.",
+    color:["white","black","gray"],
+    conect:["wairless","usb"],
+    featured:true,
+    rating: 4.7
+  },
+  {
+    id: 12,
+    name: "Keychron K6",
+    price: 89,
+    image: ["./asset/tech/12.png","./asset/tech/12-1.png"],
+    category: "Tech",
+    subcategory: "Keyboards",
+    description: "Hot-swappable compact mechanical keyboard.",
+    color:["white","black","gray"],
+    conect:["wairless","usb"],
+    featured:true,
+    rating: 4.5
+  },
+  {
+    id: 13,
+    name: "Razer Huntsman Mini",
+    price: 109,
+    image: ["./asset/tech/13.png","./asset/tech/13-1.png"],
+    category: "Tech",
+    subcategory: "Keyboards",
+    description: "Gaming-focused 60% optical keyboard.",
+    color:["white","black","gray"],
+    conect:["wairless","usb"],
+    featured:false,
+    rating: 4.4
+  },
+  {
+    id: 14,
+    name: "Apple Magic Keyboard",
+    price: 99,
+    image: ["./asset/tech/14.png","./asset/tech/14-1.png"],
+    category: "Tech",
+    subcategory: "Keyboards",
+    description: "Slim and elegant keyboard for Apple users.",
+    color:["white","black","gray"],
+    conect:["wairless","usb"],
+    featured:false,
+    rating: 4.3
+  },
+  {
+    id: 15,
+    name: "Corsair K95 RGB Platinum",
+    price: 149,
+    image: ["./asset/tech/15.png","./asset/tech/15-1.png"],
+    category: "Tech",
+    subcategory: "Keyboards",
+    description: "RGB mechanical keyboard with macro keys.",
+    color:["white","black","gray"],
+    conect:["wairless","usb"],
+    featured:false,
+    rating: 4.1
+  }
+
+]
