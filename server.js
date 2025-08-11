@@ -2,12 +2,21 @@ import express from "express";
 import dotenv from "dotenv";
 import Stripe from "stripe";
 import cors from "cors";
-import { products } from "./Projects.js";// must be .js if ES modules
+import { products } from "./Projects.js"; // must be .js for ES modules
 
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: process.env.FRONTEND_URL }));
+
+// Check required environment variables
+if (!process.env.SECRET_STRIPE_KEY || !process.env.FRONTEND_URL) {
+  console.error("❌ Missing environment variables. Please set SECRET_STRIPE_KEY and FRONTEND_URL.");
+  process.exit(1);
+}
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL.replace(/\/$/, ""), // remove trailing slash just in case
+}));
 app.use(express.json());
 
 const stripe = new Stripe(process.env.SECRET_STRIPE_KEY);
@@ -41,16 +50,10 @@ app.post("/create-checkout-session", async (req, res) => {
     }
 
     const lineItems = req.body.items.map(item => {
-      console.log(`Processing item: ${JSON.stringify(item)}`);
-
       const product = products.find(p => p.id === item.id);
-      if (!product) {
-        console.error(`❌ Product not found for id: ${item.id}`);
-        throw new Error(`Product not found: ${item.id}`);
-      }
+      if (!product) throw new Error(`Product not found: ${item.id}`);
 
       const price = calculatePrice(item);
-      console.log(`✅ Price calculated for ${product.name}: $${price}`);
 
       return {
         price_data: {
@@ -65,9 +68,6 @@ app.post("/create-checkout-session", async (req, res) => {
       };
     });
 
-    console.log("✅ All line items processed successfully");
-    console.log("Line Items:", JSON.stringify(lineItems, null, 2));
-
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -76,10 +76,15 @@ app.post("/create-checkout-session", async (req, res) => {
       cancel_url: `${process.env.FRONTEND_URL}/cancel`,
     });
 
-    console.log("✅ Stripe session created:", session.id);
     res.json({ url: session.url });
   } catch (error) {
     console.error("❌ Stripe checkout error:", error);
     res.status(500).json({ error: error.message });
   }
+});
+
+// Listen on provided PORT for Render
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`✅ Server is running on port ${PORT}`);
 });
