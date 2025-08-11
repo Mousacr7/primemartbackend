@@ -73,7 +73,8 @@ app.post("/create-checkout-session", async (req, res) => {
       mode: "payment",
       line_items: lineItems,
       success_url: `${process.env.FRONTEND_URL}/success`,
-      cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+      cancel_url: `${process.env.FRONTEND_URL}/`, // Redirect to homepage on cancel
+
     });
 
     res.json({ url: session.url });
