@@ -31,23 +31,42 @@ const calculatePrice = (item) => {
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
+    console.log("=== Incoming Checkout Session Request ===");
+    console.log("Request Headers:", req.headers);
+    console.log("Request Body:", JSON.stringify(req.body, null, 2));
+
+    if (!req.body.items || !Array.isArray(req.body.items)) {
+      console.error("❌ Invalid items array in request");
+      return res.status(400).json({ error: "Invalid items array" });
+    }
+
     const lineItems = req.body.items.map(item => {
-      const price = calculatePrice(item);
+      console.log(`Processing item: ${JSON.stringify(item)}`);
+
       const product = products.find(p => p.id === item.id);
+      if (!product) {
+        console.error(`❌ Product not found for id: ${item.id}`);
+        throw new Error(`Product not found: ${item.id}`);
+      }
+
+      const price = calculatePrice(item);
+      console.log(`✅ Price calculated for ${product.name}: $${price}`);
 
       return {
         price_data: {
           currency: "usd",
           product_data: {
-      name: product.name,
-      images: [product.image[0]]
-    },
-    unit_amount: Math.round(price * 100)
-  },
-  quantity: item.quantity,
-};
-});
-console.log(products.image[0])
+            name: product.name,
+            images: [product.image[0]]
+          },
+          unit_amount: Math.round(price * 100)
+        },
+        quantity: item.quantity,
+      };
+    });
+
+    console.log("✅ All line items processed successfully");
+    console.log("Line Items:", JSON.stringify(lineItems, null, 2));
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -57,10 +76,10 @@ console.log(products.image[0])
       cancel_url: `${process.env.FRONTEND_URL}/cancel`,
     });
 
+    console.log("✅ Stripe session created:", session.id);
     res.json({ url: session.url });
   } catch (error) {
+    console.error("❌ Stripe checkout error:", error);
     res.status(500).json({ error: error.message });
   }
 });
-
-app.listen(4000, () => console.log("Server running on port 4000"));
