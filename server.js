@@ -7,8 +7,7 @@ import { products } from "./Projects.js";// must be .js if ES modules
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: "https://primemartm.netlify.app"
- }));
+app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use(express.json());
 
 const stripe = new Stripe(process.env.SECRET_STRIPE_KEY);
