@@ -1,5 +1,5 @@
 const Stripe = require("stripe");
-const { db } = require("../admin");
+const { db } = require("../admin.js");
 const { collection, getDocs } = require("firebase/firestore");
 const calculatePrice = require("../utils/calculatePrice.js");
 

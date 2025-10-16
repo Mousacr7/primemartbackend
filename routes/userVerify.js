@@ -1,5 +1,5 @@
 const express = require("express");
-const { admin, db } = require("./admin.js");
+const { admin, db } = require("../admin.js");
 const rateLimit = require("express-rate-limit");
 
 const router = express.Router();

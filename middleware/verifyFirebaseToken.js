@@ -1,5 +1,5 @@
 // middleware/verifyFirebaseToken.js
-const { admin } = require("../admin");
+const { admin } = require("../admin.js");
 
 const verifyFirebaseToken = async (req, res, next) => {
   try {
