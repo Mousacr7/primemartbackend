@@ -1,7 +1,7 @@
 const express = require("express");
 const { createCheckoutSession, stripeWebhook, verifyCheckoutSession } = require("../controllers/paymentController");
-const verifyFirebaseToken = require("../middleware/verifyFirebaseToken");
-const { createOrderLimiter } = require("../middleware/rateLimiter");
+const verifyFirebaseToken = require("../middleware/verifyFirebaseToken.js");
+const { createOrderLimiter } = require("../middleware/rateLimiter.js");
 const bodyParser = require("body-parser");
 
 const router = express.Router();

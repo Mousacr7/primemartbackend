@@ -1,7 +1,7 @@
 const Stripe = require("stripe");
 const { db } = require("../admin");
 const { collection, getDocs } = require("firebase/firestore");
-const calculatePrice = require("../utils/calculatePrice");
+const calculatePrice = require("../utils/calculatePrice.js");
 
 const stripe = new Stripe(process.env.SECRET_STRIPE_KEY);
 
