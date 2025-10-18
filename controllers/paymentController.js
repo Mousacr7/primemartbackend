@@ -4,12 +4,11 @@ const calculatePrice = require("../utils/calculatePrice.js");
 
 const stripe = new Stripe(process.env.SECRET_STRIPE_KEY);
 
-// ✅ Cache products in memory for 30 seconds to reduce DB reads
+// Cache products for 30 seconds
 let cachedProducts = [];
 let lastFetchTime = 0;
-const PRODUCT_CACHE_TTL = 30 * 1000; // 30 seconds
+const PRODUCT_CACHE_TTL = 30 * 1000; // 30s
 
-// ✅ Fetch products safely from Firestore (Admin SDK)
 const fetchProducts = async () => {
   const now = Date.now();
   if (now - lastFetchTime < PRODUCT_CACHE_TTL && cachedProducts.length > 0) {
@@ -25,7 +24,6 @@ const fetchProducts = async () => {
   return cachedProducts;
 };
 
-// ✅ Create Stripe checkout session
 const createCheckoutSession = async (req, res) => {
   try {
     const items = req.body.items;
@@ -48,13 +46,12 @@ const createCheckoutSession = async (req, res) => {
             name: product.name,
             images: product.image ? [product.image[0]] : [],
           },
-          unit_amount: Math.round(price * 100),
+          unit_amount: Math.round(price * 100), // price in cents
         },
         quantity: item.quantity,
       };
     });
 
-    // ✅ Add fixed tax line item
     const taxLineItem = {
       price_data: {
         currency: "usd",
@@ -64,7 +61,6 @@ const createCheckoutSession = async (req, res) => {
       quantity: 1,
     };
 
-    // ✅ Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [...lineItems, taxLineItem],
@@ -72,8 +68,8 @@ const createCheckoutSession = async (req, res) => {
       shipping_options: [
         {
           shipping_rate_data: {
-            type: "fixed",
-            fixed_amount: { unit_amount: 1500, currency: "usd" },
+            type: "fixed_amount", // ✅ Correct type
+            fixed_amount: { amount: 1500, currency: "usd" }, // ✅ Use 'amount' not 'unit_amount'
             display_name: "Standard Shipping",
             delivery_estimate: {
               minimum: { unit: "business_day", value: 3 },
@@ -99,7 +95,6 @@ const createCheckoutSession = async (req, res) => {
   }
 };
 
-// ✅ Handle Stripe Webhook events
 const stripeWebhook = async (req, res) => {
   const sig = req.headers["stripe-signature"];
   try {
@@ -113,7 +108,7 @@ const stripeWebhook = async (req, res) => {
       const pi = event.data.object;
       const orderId = pi.metadata.orderId;
       console.log(`✅ Order ${orderId} paid successfully. Payment ID: ${pi.id}`);
-      // You can update Firestore order status here if needed
+      // update Firestore order status if needed
     }
 
     res.json({ received: true });
@@ -123,7 +118,6 @@ const stripeWebhook = async (req, res) => {
   }
 };
 
-// ✅ Verify checkout session
 const verifyCheckoutSession = async (req, res) => {
   const { sessionId } = req.query;
   if (!sessionId) return res.status(400).json({ error: "Missing session ID" });
