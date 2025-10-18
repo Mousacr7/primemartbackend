@@ -1,5 +1,5 @@
 const Stripe = require("stripe");
-const { db } = require("/admin.js");
+const { db } = require("../admin.js");
 const calculatePrice = require("../utils/calculatePrice.js");
 
 const stripe = new Stripe(process.env.SECRET_STRIPE_KEY);
