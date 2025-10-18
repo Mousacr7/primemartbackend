@@ -6,15 +6,32 @@ const userVerifyRoute = require("./routes/userVerify.js");
 
 const app = express();
 
-// CORS
-app.use(cors({ origin: process.env.FRONTEND_URL.replace(/\/$/, "") }));
+// ✅ Fix Render proxy + express-rate-limit issue
+app.set("trust proxy", 1);
 
-// Parse JSON (except webhook raw body)
+// ✅ Configure CORS correctly (allow frontend URL + handle undefined case)
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL
+      ? process.env.FRONTEND_URL.replace(/\/$/, "")
+      : "*", // fallback for local testing
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
+// ✅ Parse JSON safely (handle Stripe webhook separately if you add it later)
 app.use(express.json());
 
-// Routes
+// ✅ Routes
 app.use("/api", userVerifyRoute);
 app.use("/api", paymentRoutes);
 
+// ✅ Health check endpoint
+app.get("/", (req, res) => {
+  res.send("✅ PrimeMart Backend is running...");
+});
+
+// ✅ Start server
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
