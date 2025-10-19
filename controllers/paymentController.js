@@ -81,8 +81,8 @@ const createCheckoutSession = async (req, res) => {
       shipping_address_collection: {
         allowed_countries: ["US", "CA", "GB", "AU"],
       },
-      success_url: `${process.env.FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+      success_url: `${process.env.FRONTEND_URL}success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.FRONTEND_URL}cancel`,
       metadata: {
         orderId: `order-${Date.now()}`,
       },
